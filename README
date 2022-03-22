@@ -1,0 +1,102 @@
+
+This is a simple chatbot for answering questions starting with your wit.ai chatbot of choice.
+It uses the pywit library found at:
+
+https://github.com/wit-ai/pywit
+
+It is really very generically written, only assuming that you have already preprocessed
+your wit.ai chatbot, as the json files included in the directory: 
+
+wit_ai_chatbot_unzipped_dirs
+
+using the command:
+
+python wit_ai_chatbot_db.py
+
+This produces a file in csv format:
+
+wit_ai_chatbot_db.csv
+
+that could e.g. be read and edited using Excel of Office Suite or
+using Calc application of  respectively Libre Office or Open Office Suites.
+For this  program to work, you then need to copy this file to its new name:
+
+wit_ai_chatbot_db.w_answers.csv
+
+and edit this file to supply the answers in the "answer" column.
+It is wise to first write protect the other columns, especially as
+this program as yet does not have very good error reporting.
+
+As perhaps expected, the content under directory wit_ai_chatbot_unzipped_dirs
+is what you get by unzipping the saved zip file of your wit.ai chatbot
+and renaming the main directory to wit_ai_chatbot_unzipped_dirs
+(done from within settings menu of chatbot)
+
+ We assume you have:
+
+ * a Wit.ai bot setup (https://wit.ai/docs/quickstart)
+ * a Messenger Platform setup (https://developers.facebook.com/docs/messenger-platform/quickstart)
+
+ You need to `pip install the following dependencies: requests, bottle, wit and possibly other packages not included in default installation.
+
+ 1. pip install requests bottle wit
+ 2. You can run this example on a cloud service provider like Heroku, 
+    Google Cloud Platform or AWS.
+    Note that webhooks must have a valid SSL certificate, signed by 
+    a certificate authority and won't work on your localhost unless
+    this is true.
+    It is possible to use Letsencrypt's certbot to get a valid certificate
+    from Letsencrypt if running on your own local host.
+    You could also run this on ngrok and they would supply you with 
+    a valid SSL Certificate for the temporary domain(s) you get each
+    time you run an ngrok tunnel (temporary, if assuming you use 
+    the free version of this service).
+
+ 3. Note down  your different tokens for wit.ai site, fb messenger page 
+    & fb messenger verification that is <WIT_TKN>, <PG_TKN> and 
+    <VER_TKN> below. <VER_TKN> could be selected by you yourself
+    and fed into the call to python program and into the application page,
+    done in step 5 below, note that when "correctly" done this step need 
+    only to be done once.
+
+ 4. Run this python script as a  server e.g. calling the enclosed script as below:
+    WIT_TOKEN=<WIT_TKN> FB_VERIFY_TOKEN=<VER_TKN> FB_PAGE_TOKEN=<PG_TKN> \
+    FB_MES_WEBHOOK_PORT=8445 WIT_API_VERSION=20200513 \
+    wit_messenger_chatbot_automated_logic.sh
+      
+    Note that the \ at the end of line is for continuing this command line onto 
+    the next line. (Check contents of that script to see how 
+    this program is called directly.)
+
+ 5. You also need to create a ngrok tunnel the first time you run 
+    the python program.
+    This is done e.g. with command 
+    
+    bash -x ./run_ngrok_tunnel.sh
+    
+    The first time you are running your python program with a ngrok tunnel,
+    you also need to subscribe your page to the Webhooks using <VER_TKN> and 
+    https://<YOUR_HOST>/webhook` as callback URL,
+    using the web page for your Messenger App. 
+    The VER_TKN for the Messenger web hook
+    should better be chosen to not change its value to avoid 
+    respecifying it at every restart of the python program above
+
+    Do this on the web page for 
+    <Messenger App> - Messenger - Facebook for Developers 
+    under:
+
+    https://developers.facebook.com/apps/<Messenger App ID>/messenger/settings/
+    Remark:
+             When using a free ngrok tunnel you will get 
+             a new host domain (<YOUR_HOST> above) every time, 
+             so you need to check the new domain for 
+             https / SSL using their web page 
+             (assuming you have an account and is logged in):
+
+             https://dashboard.ngrok.com/cloud-edge/status
+
+    It is also echoed to the output at least when running 
+    a Linux bash script with bash -x.
+
+6.  Talk to your bot on Messenger!
